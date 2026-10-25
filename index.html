@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP-08 – 3D-printed autopilot panel and virtual autopilot window for MSFS 2020/2024</title>
+<meta name="description" content="AP-08: DIY 3D-print autopilot panel with Arduino for Microsoft Flight Simulator 2020/2024 (STL files, guide, software) and AP-08 Virtual, an on-screen autopilot window with HDG, ALT, VS, IAS and mode lights.">
+<meta name="keywords" content="autopilot 3D print, MSFS autopilot panel, Arduino autopilot, flight simulator autopilot, MSFS 2024, MSFS 2020, home cockpit, simpit, STL, autopilota stampa 3D">
+<link rel="canonical" href="https://USERNAME.github.io/ap08/">
+<link rel="icon" href="favicon.ico">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AP-08 – 3D-printed autopilot panel and virtual autopilot window for MSFS 2020/2024">
+<meta property="og:description" content="AP-08: DIY 3D-print autopilot panel with Arduino for Microsoft Flight Simulator 2020/2024 (STL files, guide, software) and AP-08 Virtual, an on-screen autopilot window with HDG, ALT, VS, IAS and mode lights.">
+<meta property="og:image" content="https://USERNAME.github.io/ap08/img/og-image.jpg">
+<meta property="og:url" content="https://USERNAME.github.io/ap08/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0F1317}
+a{color:#C9B8FF}a:hover{color:#E2D8FF}
+img,video{max-width:100%}
+</style>
+<style>
+.t-it{display:none}
+#lang-it:checked ~ * .t-it{display:inline}
+#lang-it:checked ~ * .t-en{display:none}
+.lang-radio{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+.lang-menu summary{list-style:none;cursor:pointer}
+.lang-menu summary::-webkit-details-marker{display:none}
+.lang-opt{display:block;padding:8px 14px;cursor:pointer;color:#E8ECEF;font-size:14px;white-space:nowrap}
+.lang-opt:hover{background:#252D35}
+#lang-en:checked ~ * .opt-en, #lang-it:checked ~ * .opt-it{color:#A78BFA;font-weight:700}
+</style>
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "AP-08 Virtual", "operatingSystem": "Windows 10, Windows 11", "applicationCategory": "GameApplication", "description": "Autopilot window for Microsoft Flight Simulator 2020/2024: heading, altitude, vertical speed, speed and 12 mode lights, controlled with the mouse.", "offers": {"@type": "Offer", "price": "5.00", "priceCurrency": "EUR", "url": "https://payhip.com/b/ZGEQb"}}, {"@context": "https://schema.org", "@type": "Product", "name": "AP-08 DIY autopilot panel (3D print + Arduino)", "image": "https://USERNAME.github.io/ap08/img/panel-front.jpg", "description": "3D-printable desktop autopilot panel for MSFS 2020/2024 with Arduino Mega: 12 buttons with LEDs, HDG and ALT knobs, VS wheel. STL files, assembly guide and software.", "brand": {"@type": "Brand", "name": "Studio 08"}, "offers": {"@type": "AggregateOffer", "lowPrice": "10.00", "highPrice": "20.00", "priceCurrency": "EUR", "offerCount": "3"}}]</script>
+</head>
+<body>
+
+<div style="background: #0F1317; color: #E8ECEF; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 17px; line-height: 1.55; min-height: 100vh">
+<input type="radio" name="lang" id="lang-en" class="lang-radio" checked>
+<input type="radio" name="lang" id="lang-it" class="lang-radio">
+<div class="page-wrap"><header style="border-bottom: 1px solid #252D35">
+<div style="max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#top" style="display: flex; align-items: center; gap: 10px; color: #E8ECEF; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: 1px"><span style="display: inline-block; width: 12px; height: 12px; border-radius: 2px; background: #A78BFA"></span>AP-08</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 22px">
+<nav style="display: flex; flex-wrap: wrap; gap: 22px; font-size: 15px">
+<a href="#how" style="color: #B4BEC7; text-decoration: none"><span class="t-en">How it works</span><span class="t-it">Come funziona</span></a>
+<a href="#buy" style="color: #B4BEC7; text-decoration: none"><span class="t-en">Buy</span><span class="t-it">Acquista</span></a>
+<a href="#panel" style="color: #B4BEC7; text-decoration: none"><span class="t-en">DIY panel</span><span class="t-it">Pannello fai-da-te</span></a>
+<a href="#faq" style="color: #B4BEC7; text-decoration: none">FAQ</a>
+</nav>
+<details class="lang-menu" style="position: relative">
+<summary aria-label="Language" style="display: inline-flex; align-items: center; gap: 6px; color: #E8ECEF; border: 1px solid #3A444E; border-radius: 6px; padding: 7px 10px; font-size: 14px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.8 3 2.8 16 0 19M12 2.5c-2.8 3-2.8 16 0 19"/></svg><span class="t-en">EN</span><span class="t-it">IT</span></summary>
+<div style="position: absolute; right: 0; top: calc(100% + 6px); background: #1B2127; border: 1px solid #3A444E; border-radius: 8px; padding: 6px 0; z-index: 10; min-width: 140px">
+<label for="lang-en" class="lang-opt opt-en">English</label>
+<label for="lang-it" class="lang-opt opt-it">Italiano</label>
+</div>
+</details>
+</div>
+</div>
+</header>
+
+<section id="top" style="max-width: 1200px; margin: 0 auto; padding: 72px 24px 64px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #A78BFA"><span class="t-en">SOFTWARE FOR MSFS 2020/2024 · WINDOWS</span><span class="t-it">SOFTWARE PER MSFS 2020/2024 · WINDOWS</span></div>
+<h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 64px; line-height: 1.02; letter-spacing: 0.5px"><span class="t-en">The MSFS autopilot, in a window of its own.</span><span class="t-it">L'autopilota di MSFS, in una finestra tutta sua.</span></h1>
+<p style="margin: 0; color: #B4BEC7; font-size: 19px; max-width: 560px"><span class="t-en"><strong style="color: #E8ECEF">AP-08 Virtual</strong> shows heading, altitude, vertical speed, speed and the 12 autopilot mode lights, always in view. And you control it with the mouse: one click to engage a mode, the wheel to change values.</span><span class="t-it"><strong style="color: #E8ECEF">AP-08 Virtuale</strong> mostra rotta, quota, velocità verticale, velocità e le spie dei 12 modi dell'autopilota, sempre in vista. E lo comandi con il mouse: un clic per attivare un modo, la rotellina per cambiare i valori.</span></p>
+<p style="margin: 0; color: #B4BEC7; font-size: 17px; max-width: 560px"><span class="t-en">On a second monitor, a tablet or over the simulator. No hardware to buy.</span><span class="t-it">Su un secondo monitor, su un tablet o sopra al simulatore. Nessun hardware da comprare.</span></p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px">
+<a href="https://payhip.com/b/ZGEQb" target="_blank" rel="noopener" style="background: #A78BFA; color: #15181B; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center"><span class="t-en">Buy now · €5</span><span class="t-it">Acquista · 5 €</span></a>
+<a href="#panel" style="border: 1px solid #3A444E; color: #E8ECEF; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center"><span class="t-en">Want real buttons? Build the panel</span><span class="t-it">Vuoi tasti veri? Costruisci il pannello</span></a>
+</div>
+</div>
+<div style="flex: 1 1 480px; min-width: 0">
+<img src="img/ap08-virtual-window.png" width="1080" height="276" alt="AP-08 Virtual window connected to MSFS: HDG 270, ALT 8500, VS +700, IAS 110, with HDG, AP, LVL, FD and ALT lights on" style="display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid #2E3740; box-shadow: 0 30px 60px rgba(0,0,0,0.45)">
+<div style="margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8F9BA6; text-align: center"><span class="t-en">Real window, connected to MSFS</span><span class="t-it">Finestra reale, collegata a MSFS</span></div>
+</div>
+</section>
+
+<section id="how" style="background: #151A1F; border-top: 1px solid #222A31; border-bottom: 1px solid #222A31">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 24px; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #A78BFA"><span class="t-en">HOW IT WORKS</span><span class="t-it">COME FUNZIONA</span></div>
+<h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 42px"><span class="t-en">See and control, without hunting for buttons in the cockpit</span><span class="t-it">Vedi e comandi, senza cercare i tasti nel cockpit</span></h2>
+<p style="margin: 0; color: #B4BEC7; max-width: 720px"><span class="t-en">MSFS has no window that shows just the autopilot. AP-08 Virtual creates one and links it to the simulator: what you change in the window changes in the cockpit, and vice versa.</span><span class="t-it">MSFS non ha una finestra che mostri solo l'autopilota. AP-08 Virtuale la crea e la collega al simulatore: quello che cambi nella finestra cambia nel cockpit, e viceversa.</span></p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600; color: #A78BFA">4</div><div style="font-weight: 600"><span class="t-en">Large displays</span><span class="t-it">Display grandi</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">Heading, altitude, vertical speed and speed, readable at a glance even on a small screen.</span><span class="t-it">Rotta, quota, velocità verticale e velocità, leggibili a colpo d'occhio anche su uno schermo piccolo.</span></div></div>
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600; color: #A78BFA">12</div><div style="font-weight: 600"><span class="t-en">12 mode lights</span><span class="t-it">12 spie dei modi</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">APR, NAV, HDG, TRK, AP, LVL, FD, YD, IAS, VNAV, VS, ALT: they light up like in the cockpit.</span><span class="t-it">APR, NAV, HDG, TRK, AP, LVL, FD, YD, IAS, VNAV, VS, ALT: si accendono come nel cockpit.</span></div></div>
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600; color: #A78BFA">1</div><div style="font-weight: 600"><span class="t-en">Click to control</span><span class="t-it">Clic per comandare</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">A click on a button engages or disengages that mode in the simulator. The mouse wheel on a display changes its value; hold Shift for ×10 steps.</span><span class="t-it">Un clic su un tasto attiva o disattiva il modo nel simulatore. La rotellina su un display cambia il valore; con Maiusc il passo è ×10.</span></div></div>
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600; color: #A78BFA">↔</div><div style="font-weight: 600"><span class="t-en">Wherever you want</span><span class="t-it">Dove vuoi tu</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">Second monitor, tablet via remote desktop or over the simulator. Move it, resize it, it remembers its position.</span><span class="t-it">Secondo monitor, tablet in desktop remoto o sopra al simulatore. Si sposta, si ridimensiona e ricorda la posizione.</span></div></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-weight: 600"><span class="t-en">Knows your aircraft</span><span class="t-it">Riconosce l'aereo</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">Applies the right profile for the loaded avionics. Editable profiles; TRK, VNAV and Airbus with the free MobiFlight module.</span><span class="t-it">Applica da solo il profilo giusto per l'avionica caricata. Profili modificabili; TRK, VNAV e Airbus con il modulo gratuito MobiFlight.</span></div></div>
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-weight: 600"><span class="t-en">5 languages</span><span class="t-it">5 lingue</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">English, Italian, German, French and Spanish, from the gear menu.</span><span class="t-it">Italiano, inglese, tedesco, francese e spagnolo, dal menu a ingranaggio.</span></div></div>
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-weight: 600"><span class="t-en">Free updates</span><span class="t-it">Aggiornamenti gratuiti</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">The program tells you when a new version is out: download it again for free.</span><span class="t-it">Il programma ti avvisa quando esce una versione nuova: la riscarichi gratis.</span></div></div>
+<div style="flex: 1 1 240px; min-width: 0; background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px"><div style="font-weight: 600"><span class="t-en">Nothing to install</span><span class="t-it">Niente da installare</span></div><div style="color: #B4BEC7; font-size: 15px"><span class="t-en">One .exe file: double-click and go. PDF user guide included.</span><span class="t-it">Un file .exe: doppio clic e parte. Guida d'uso in PDF inclusa.</span></div></div>
+</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #8F9BA6"><span class="t-en">Requirements: Windows 10/11 · Microsoft Flight Simulator 2020 or 2024 for PC · internet on first start.</span><span class="t-it">Requisiti: Windows 10/11 · Microsoft Flight Simulator 2020 o 2024 per PC · internet al primo avvio.</span></div>
+</div>
+</section>
+
+<section id="buy" style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #A78BFA"><span class="t-en">BUY</span><span class="t-it">ACQUISTA</span></div>
+<h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 42px; line-height: 1.05"><span class="t-en">AP-08 Virtual, instant download</span><span class="t-it">AP-08 Virtuale, download immediato</span></h2>
+<p style="margin: 0; color: #B4BEC7"><span class="t-en">Pay once and get the program and the user guide right away. Future updates are included. Secure payment with card or PayPal.</span><span class="t-it">Paghi una volta, ricevi subito il programma e la guida d'uso. Gli aggiornamenti futuri sono compresi. Pagamento sicuro con carta o PayPal.</span></p>
+</div>
+<div style="flex: 1 1 380px; min-width: 0; background: #1D1B2B; border: 2px solid #A78BFA; border-radius: 14px; padding: 34px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 0 36px rgba(167,139,250,0.25)">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+<h3 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 32px"><span class="t-en">AP-08 Virtual</span><span class="t-it">AP-08 Virtuale</span></h3>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 34px; font-weight: 600">€5</div>
+</div>
+<ul style="margin: 0; padding-left: 20px; color: #C7D0D7; display: flex; flex-direction: column; gap: 8px">
+<li><span class="t-en">Windows program (.exe), nothing to install</span><span class="t-it">Programma per Windows (.exe), niente da installare</span></li>
+<li><span class="t-en">HDG, ALT, VS, IAS displays and 12 lights, mouse control</span><span class="t-it">Display HDG, ALT, VS, IAS e 12 spie, comandi con il mouse</span></li>
+<li><span class="t-en">Automatic, editable aircraft profiles</span><span class="t-it">Profili automatici per aereo, modificabili</span></li>
+<li><span class="t-en">5 languages · free updates</span><span class="t-it">In 5 lingue · aggiornamenti gratuiti</span></li>
+<li><span class="t-en">PDF user guide</span><span class="t-it">Guida d'uso in PDF</span></li>
+</ul>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="https://payhip.com/b/ZGEQb" target="_blank" rel="noopener" style="background: #A78BFA; color: #15181B; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center"><span class="t-en">Buy now · €5</span><span class="t-it">Acquista · 5 €</span></a>
+</div>
+</div>
+</section>
+
+<section id="panel" style="background: #151A1F; border-top: 1px solid #222A31; border-bottom: 1px solid #222A31">
+<div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #3BD16F"><span class="t-en">FOR REAL BUTTONS AND KNOBS</span><span class="t-it">PER CHI VUOLE TASTI E MANOPOLE VERI</span></div>
+<h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 42px; line-height: 1.05"><span class="t-en">Build the AP-08 panel: 3D-printed autopilot for MSFS</span><span class="t-it">Il pannello AP-08 da costruire: autopilota stampato in 3D per MSFS</span></h2>
+<p style="margin: 0; color: #B4BEC7"><span class="t-en">A 3D-printed desktop panel with an Arduino Mega: 12 buttons with lights, HDG and ALT knobs, a wheel for vertical speed. With the complete package it uses the same AP-08 window, driven by the panel. Files, guide and software are on Cults3D, Etsy and Payhip.</span><span class="t-it">Un pannello da scrivania stampato in 3D con Arduino Mega: 12 tasti con spia, manopole HDG e ALT, rotella per la velocità verticale. Con il pacchetto completo usa la stessa finestra AP-08, comandata dal pannello. File, guida e software si trovano su Cults3D, Etsy e Payhip.</span></p>
+</div>
+<div style="flex: 1 1 480px; min-width: 0">
+<div style="perspective: 1400px; padding: 10px 6px 26px; container-type: inline-size">
+<div role="img" aria-label="AP-08 panel illustration: blue front with twelve black buttons and triangular lights, HDG and ALT knobs and UP/DWN wheel" style="position: relative; width: 100%; aspect-ratio: 161 / 70; border-radius: 1.4%; background: radial-gradient(90% 120% at 30% 10%, rgba(255,255,255,0.10), rgba(255,255,255,0) 60%), linear-gradient(160deg, #2C3A86 0%, #1F2A66 45%, #161D4A 100%); box-shadow: 0 2px 0 #121839, 0 6px 0 #0E1330, 0 10px 0 #0B0F27, 0 34px 50px rgba(0,0,0,0.55)">
+<div style="position: absolute; left: 18.758%; top: 17.429%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">APR</div>
+<div style="position: absolute; left: 22.360%; top: 11.157%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 18.758%; top: 46.571%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">NAV</div>
+<div style="position: absolute; left: 22.360%; top: 40.300%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 5.093%; top: 75.714%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">HDG</div>
+<div style="position: absolute; left: 8.696%; top: 69.443%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #3BD16F; filter: drop-shadow(0 0 6px #3BD16F) drop-shadow(0 0 2px #3BD16F)"></div>
+<div style="position: absolute; left: 18.758%; top: 75.714%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">TRK</div>
+<div style="position: absolute; left: 22.360%; top: 69.443%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 32.422%; top: 32.000%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">AP</div>
+<div style="position: absolute; left: 36.025%; top: 25.729%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #F2B33D; filter: drop-shadow(0 0 6px #F2B33D) drop-shadow(0 0 2px #F2B33D)"></div>
+<div style="position: absolute; left: 46.087%; top: 32.000%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">LVL</div>
+<div style="position: absolute; left: 49.689%; top: 25.729%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 32.422%; top: 61.143%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">FD</div>
+<div style="position: absolute; left: 36.025%; top: 54.871%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #3BD16F; filter: drop-shadow(0 0 6px #3BD16F) drop-shadow(0 0 2px #3BD16F)"></div>
+<div style="position: absolute; left: 46.087%; top: 61.143%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">YD</div>
+<div style="position: absolute; left: 49.689%; top: 54.871%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 74.037%; top: 17.429%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">IAS</div>
+<div style="position: absolute; left: 77.640%; top: 11.157%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 74.037%; top: 46.571%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 2.6cqw; letter-spacing: 0; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">VNAV</div>
+<div style="position: absolute; left: 77.640%; top: 40.300%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 74.037%; top: 75.714%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">VS</div>
+<div style="position: absolute; left: 77.640%; top: 69.443%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #D9DCE2; opacity: 0.85"></div>
+<div style="position: absolute; left: 87.702%; top: 75.714%; width: 7.205%; height: 16.571%; box-sizing: border-box; border-radius: 6%; background: radial-gradient(120% 120% at 30% 20%, #2A2C30 0%, #16171A 60%, #0D0E10 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -2px 3px rgba(0,0,0,0.6), 0 2px 0 #0A0C1A, 0 4px 8px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 3.1cqw; letter-spacing: 0.5px; color: #F4F5F7; text-shadow: 0 0 1px rgba(255,255,255,0.4)">ALT</div>
+<div style="position: absolute; left: 91.304%; top: 69.443%; transform: translate(-50%, -50%); width: 0; height: 0; border-left: 1.6cqw solid transparent; border-right: 1.6cqw solid transparent; border-bottom: 2.6cqw solid #3BD16F; filter: drop-shadow(0 0 6px #3BD16F) drop-shadow(0 0 2px #3BD16F)"></div>
+<div style="position: absolute; left: 2.484%; top: 24.286%; width: 12.422%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 38% 32%, #4A4D52 0%, #24262A 45%, #111214 75%), repeating-conic-gradient(#1A1B1E 0deg 4deg, #2C2E32 4deg 8deg); box-shadow: 0 0 0 3px #101114, 0 0 0 4px rgba(255,255,255,0.06), 0 10px 16px rgba(0,0,0,0.6), inset 0 2px 3px rgba(255,255,255,0.12)"></div>
+<div style="position: absolute; left: 8.696%; top: 10.714%; transform: translate(-50%, -50%); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 2.8cqw; letter-spacing: 1px; color: #D9DCE2">HDG</div>
+<div style="position: absolute; left: 85.714%; top: 25.714%; width: 11.180%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 38% 32%, #4A4D52 0%, #24262A 45%, #111214 75%), repeating-conic-gradient(#1A1B1E 0deg 4deg, #2C2E32 4deg 8deg); box-shadow: 0 0 0 3px #101114, 0 0 0 4px rgba(255,255,255,0.06), 0 10px 16px rgba(0,0,0,0.6), inset 0 2px 3px rgba(255,255,255,0.12)"></div>
+<div style="position: absolute; left: 91.304%; top: 10.714%; transform: translate(-50%, -50%); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 2.8cqw; letter-spacing: 1px; color: #D9DCE2">ALT</div>
+<div style="position: absolute; left: 66.491%; top: 27.143%; width: 4.658%; height: 45.714%; border-radius: 3px; background: #07080A; box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.08)"><div style="position: absolute; inset: 6% 14%; border-radius: 3px; background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(255,255,255,0.08) 45%, rgba(0,0,0,0.6)), repeating-linear-gradient(0deg, #18191C 0 3px, #34363B 3px 5px)"></div></div>
+<div style="position: absolute; left: 68.820%; top: 16.429%; transform: translate(-50%, -50%); text-align: center; line-height: 1; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 2.3cqw; color: #D9DCE2">&#8593;<br>UP</div>
+<div style="position: absolute; left: 68.820%; top: 83.571%; transform: translate(-50%, -50%); text-align: center; line-height: 1; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 2.3cqw; color: #D9DCE2">DWN<br>&#8595;</div>
+</div>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<figure style="margin: 0 auto; width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 8px">
+<video src="img/panel-video.mp4" poster="img/panel-video-poster.jpg" autoplay muted loop playsinline controls style="display: block; width: 100%; height: auto; aspect-ratio: 1280 / 800; border-radius: 12px; background: #0E1114"></video>
+<figcaption style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8F9BA6"><span class="t-en">The assembled panel</span><span class="t-it">Il pannello montato</span></figcaption>
+</figure>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<img loading="lazy" src="img/panel-front.jpg" alt="The assembled AP-08 panel seen from above: blue front, twelve black buttons with white labels, HDG and ALT knobs and wheel" style="flex: 1 1 300px; min-width: 0; width: 100%; height: auto; border-radius: 12px">
+<img loading="lazy" src="img/panel-lights.jpg" alt="The AP-08 panel lit in the dark: AP light orange, LVL blue, FD, VNAV and ALT white" style="flex: 1 1 300px; min-width: 0; width: 100%; height: auto; border-radius: 12px">
+<img loading="lazy" src="img/panel-three-quarter.jpg" alt="The assembled AP-08 panel seen from three quarters, showing the side of the box" style="flex: 1 1 300px; min-width: 0; width: 100%; height: auto; border-radius: 12px">
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+<div style="flex: 1 1 250px; min-width: 0; background: #1B2127; border: 1px solid #2E3740; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #3BD16F"><span class="t-en">1 · BASIC</span><span class="t-it">1 · BASE</span></div>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.1"><span class="t-en">STL files + code</span><span class="t-it">File STL + codice</span></h3>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 600">€10</div>
+<ul style="margin: 0; padding-left: 20px; color: #C7D0D7; display: flex; flex-direction: column; gap: 8px; font-size: 15px"><li><span class="t-en">STL files, buttons in 3 heights</span><span class="t-it">File STL, tasti in 3 altezze</span></li><li><span class="t-en">Arduino sketch for Arduino Mega</span><span class="t-it">Sketch Arduino per Arduino Mega</span></li><li><span class="t-en">For experienced makers: MSFS connection not included</span><span class="t-it">Per esperti: collegamento a MSFS non incluso</span></li></ul>
+<div style="margin-top: auto; display: flex; flex-wrap: wrap; gap: 12px"><a href="https://cults3d.com/it/modello-3d/strumento/autopilot-ap-08" target="_blank" rel="noopener" style="background: #E8ECEF; color: #15181B; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Cults3D</a><a href="https://www.etsy.com/it/listing/4602890642/autopilota-ap-08" target="_blank" rel="noopener" style="border: 1px solid #3A444E; color: #E8ECEF; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Etsy</a></div></div>
+<div style="flex: 1 1 250px; min-width: 0; background: #1B2127; border: 1px solid #2E3740; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #3BD16F"><span class="t-en">2 · DIGITAL KIT</span><span class="t-it">2 · KIT DIGITALE</span></div>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.1"><span class="t-en">Assembly kit</span><span class="t-it">Kit di montaggio</span></h3>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 600">€15</div>
+<ul style="margin: 0; padding-left: 20px; color: #C7D0D7; display: flex; flex-direction: column; gap: 8px; font-size: 15px"><li><span class="t-en">STL files + Arduino sketch</span><span class="t-it">File STL + sketch Arduino</span></li><li><span class="t-en">Illustrated guide in English and Italian</span><span class="t-it">Guida illustrata in inglese e italiano</span></li><li><span class="t-en">AP-08 Link: connects the panel to MSFS</span><span class="t-it">AP-08 Link: collega il pannello a MSFS</span></li></ul>
+<div style="margin-top: auto; display: flex; flex-wrap: wrap; gap: 12px"><a href="https://cults3d.com/it/modello-3d/strumento/autopilot-ap-08-kit-installazione" target="_blank" rel="noopener" style="background: #E8ECEF; color: #15181B; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Cults3D</a><a href="https://www.etsy.com/it/listing/4602897907/autopilot-ap-08-kit-installazione" target="_blank" rel="noopener" style="border: 1px solid #3A444E; color: #E8ECEF; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Etsy</a></div></div>
+<div style="flex: 1 1 250px; min-width: 0; background: #1B2127; border: 2px solid #F2B33D; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #F2B33D"><span class="t-en">3 · COMPLETE KIT + SOFTWARE</span><span class="t-it">3 · KIT COMPLETO + SOFTWARE</span></div>
+<h3 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.1"><span class="t-en">Kit + AP-08 software</span><span class="t-it">Kit + software AP-08</span></h3>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 600">€20</div>
+<ul style="margin: 0; padding-left: 20px; color: #C7D0D7; display: flex; flex-direction: column; gap: 8px; font-size: 15px"><li><span class="t-en">Everything in the assembly kit</span><span class="t-it">Tutto il kit di montaggio</span></li><li><span class="t-en">Window with displays and lights, driven by the panel</span><span class="t-it">Finestra con display e spie, comandata dal pannello</span></li><li><span class="t-en">5 languages · free updates</span><span class="t-it">5 lingue · aggiornamenti gratuiti</span></li></ul>
+<div style="margin-top: auto; display: flex; flex-wrap: wrap; gap: 12px"><a href="https://payhip.com/b/lJ8Qy" target="_blank" rel="noopener" style="background: #F2B33D; color: #15181B; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Payhip</a><a href="https://cults3d.com/it/modello-3d/strumento/autopilot-ap-08-kit-software" target="_blank" rel="noopener" style="border: 1px solid #3A444E; color: #E8ECEF; font-weight: 700; text-decoration: none; padding: 13px 22px; border-radius: 6px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Cults3D</a></div></div>
+</div>
+<details style="background: #1B2127; border: 1px solid #2A333B; border-radius: 10px; padding: 16px 22px"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">What you need to build it</span><span class="t-it">Cosa serve per costruirlo</span></summary>
+<div style="margin-top: 12px; color: #B4BEC7; font-size: 15px; font-family: 'IBM Plex Mono', monospace; line-height: 1.9"><span class="t-en">FDM printer, PLA 0.2 mm, no supports · Arduino Mega 2560 · 12 tactile switches 12×12×7.3 mm · 12 × 5 mm LEDs and 12 × 220 Ω resistors · 3 KY-040 encoders · 10 M3×8 screws, jumpers, glue · soldering iron and solder · finished panel 161 × 70 × 62.4 mm</span><span class="t-it">Stampante FDM, PLA 0,2 mm, senza supporti · Arduino Mega 2560 · 12 pulsanti tattili 12×12×7,3 mm · 12 LED 5 mm e 12 resistenze 220 Ω · 3 encoder KY-040 · 10 viti M3×8, jumper, colla · saldatore e stagno · pannello finito 161 × 70 × 62,4 mm</span></div></details>
+</div>
+</section>
+
+<section id="faq" style="max-width: 860px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 42px"><span class="t-en">Frequently asked questions</span><span class="t-it">Domande frequenti</span></h2>
+<details style="border-bottom: 1px solid #2A333B; padding: 12px 0"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">Do I need any hardware?</span><span class="t-it">Serve qualche hardware?</span></summary><p style="margin: 10px 0 0; color: #B4BEC7; font-size: 15px"><span class="t-en">No. AP-08 Virtual runs on your PC only: use it with a mouse, touchpad or touchscreen. The physical panel is optional.</span><span class="t-it">No. AP-08 Virtuale funziona solo con il PC: si usa con mouse, touchpad o touchscreen. Il pannello fisico è facoltativo.</span></p></details>
+<details style="border-bottom: 1px solid #2A333B; padding: 12px 0"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">Does it work with my aircraft?</span><span class="t-it">Funziona con il mio aereo?</span></summary><p style="margin: 10px 0 0; color: #B4BEC7; font-size: 15px"><span class="t-en">Standard MSFS commands work with aircraft that have a standard autopilot. The included profiles cover the most common avionics of the default aircraft and a community Airbus; TRK, VNAV and Airbus aircraft need the free MobiFlight module. Complex third-party aircraft are not supported yet.</span><span class="t-it">I comandi standard di MSFS funzionano con gli aerei con autopilota standard. I profili inclusi coprono le avioniche più usate degli aerei di serie e un Airbus della community; TRK, VNAV e gli Airbus richiedono il modulo gratuito MobiFlight. Gli aerei complessi di terze parti per ora non sono coperti.</span></p></details>
+<details style="border-bottom: 1px solid #2A333B; padding: 12px 0"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">Can I keep it over the simulator?</span><span class="t-it">Posso tenerla sopra al simulatore?</span></summary><p style="margin: 10px 0 0; color: #B4BEC7; font-size: 15px"><span class="t-en">Yes: set MSFS to borderless window mode and tick “Always on top” in the program menu. Or use a second monitor or a tablet via remote desktop.</span><span class="t-it">Sì: metti MSFS in modalità finestra senza bordi e spunta “Sempre in primo piano” nel menu del programma. Oppure usa un secondo monitor o un tablet in desktop remoto.</span></p></details>
+<details style="border-bottom: 1px solid #2A333B; padding: 12px 0"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">Windows shows a warning on first start</span><span class="t-it">Windows mi mostra un avviso al primo avvio</span></summary><p style="margin: 10px 0 0; color: #B4BEC7; font-size: 15px"><span class="t-en">That's normal for new programs without a digital signature: click “More info” and then “Run anyway”. It only happens the first time.</span><span class="t-it">È normale per i programmi nuovi senza firma digitale: clicca “Ulteriori informazioni” e poi “Esegui comunque”. Succede solo la prima volta.</span></p></details>
+<details style="border-bottom: 1px solid #2A333B; padding: 12px 0"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">How do I get updates?</span><span class="t-it">Come ricevo gli aggiornamenti?</span></summary><p style="margin: 10px 0 0; color: #B4BEC7; font-size: 15px"><span class="t-en">The program tells you when a new version is out; download it again for free from your purchase.</span><span class="t-it">Il programma ti avvisa quando esce una versione nuova; la riscarichi gratis dal tuo acquisto.</span></p></details>
+<details style="border-bottom: 1px solid #2A333B; padding: 12px 0"><summary style="cursor: pointer; font-weight: 600"><span class="t-en">Do you ship the panel or the parts?</span><span class="t-it">Mi spedite il pannello o i componenti?</span></summary><p style="margin: 10px 0 0; color: #B4BEC7; font-size: 15px"><span class="t-en">No: we only sell files, code, guides and software, all as downloads.</span><span class="t-it">No: vendiamo solo file, codice, istruzioni e software, tutto in download.</span></p></details>
+</section>
+
+<footer style="border-top: 1px solid #252D35">
+<div style="max-width: 1200px; margin: 0 auto; padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; color: #8F9BA6; font-size: 14px">
+<div>Studio 08 · AP-08</div>
+<div><span class="t-en">Support</span><span class="t-it">Assistenza</span>: <a href="mailto:assistenza.studio08@gmail.com">assistenza.studio08@gmail.com</a></div>
+</div>
+</footer>
+
+</div>
+</div>
+
+<script>
+try{if((navigator.language||"").toLowerCase().startsWith("it"))document.getElementById("lang-it").checked=true;}catch(e){}
+document.querySelectorAll(".lang-opt").forEach(function(l){l.addEventListener("click",function(){var d=l.closest("details");if(d)d.removeAttribute("open");});});
+</script>
+</body>
+</html>

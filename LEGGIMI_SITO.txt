@@ -1,0 +1,15 @@
+SITO WEB AP-08 - come metterlo online (GitHub Pages, gratis)
+============================================================
+1. Crea un account su github.com (se non l'hai già), meglio con un nome tipo "studio08".
+2. In alto a destra: "+" > "New repository". Nome: ap08   Visibilità: Public. Create.
+3. Nella pagina del repository: "uploading an existing file". Trascina TUTTO il contenuto
+   di questa cartella (index.html, robots.txt, sitemap.xml, favicon.ico e la cartella img).
+   Poi "Commit changes".
+4. Settings > Pages > Source: "Deploy from a branch", Branch: main, cartella / (root). Save.
+5. Dopo 1-2 minuti il sito è online su:  https://NOMEUTENTE.github.io/ap08/
+6. Dimmi il nome utente: sostituisco "USERNAME" in index.html, robots.txt e sitemap.xml
+   (serve a Google) e ti ridò i 3 file da ricaricare.
+7. Per farlo trovare su Google: search.google.com/search-console > Aggiungi proprietà >
+   "Prefisso URL" con l'indirizzo del sito > verifica > Sitemap: sitemap.xml > Invia.
+
+Nello stesso repository possiamo mettere anche versione.json per gli aggiornamenti dei programmi.
